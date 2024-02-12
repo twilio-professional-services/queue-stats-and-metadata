@@ -10,22 +10,57 @@ All this data is returned to the calling location, which is intended to be a bac
 
 The Sync map allows for managing the metadata through an interface, such as an admin panel in a custom component in Flex UI.
 
-## Dependencies
+## Disclaimer
 
-Copy `.env.example` to `.env` and populate the following variables:
+**This software is to be considered "sample code", a Type B Deliverable, and is delivered "as-is" to the user. Twilio bears no responsibility to support the use or implementation of this software.**
 
-- TWILIO_FLEX_WORKSPACE_SID    - assign the value of your flex workspace
-- TWILIO_FLEX_SYNC_SID         - assign the value of the sync service to map stats
+## Pre-requisites
 
-- TWILIO_SERVICE_RETRY_LIMIT   - max number of retry attempts, applicable to sync and task router queries
-- TWILIO_SERVICE_MAX_BACKOFF   - max back of period the queries to task router will take when retrying, recommend 0 if twilio hosted
-- TWILIO_SERVICE_MIN_BACKOFF   - min back of period the queries to task router will take when retrying, recommend 0 if twilio hosted
+Make sure you have [Node.js](https://nodejs.org) 18 as well as [`npm`](https://npmjs.com) installed.
 
-- TWILIO_SYNC_MAX_BACKOFF      - max back of period the queries to sync will take when retrying, recommend 2000
-- TWILIO_SYNC_MIN_BACKOFF      - min back of period the queries to task router will take when retrying, recommend 1000
+Next, please install the [Twilio CLI](https://www.twilio.com/docs/twilio-cli/quickstart). If you are using Homebrew on macOS, you can do so by running:
 
-- QUEUE_STATS_MAP_NAME         - name of syncMap to store stats
+```bash
+brew tap twilio/brew && brew install twilio
+```
+
+Finally, install the [serverless plugin](https://www.twilio.com/docs/labs/serverless-toolkit/getting-started) for the Twilio CLI:
+
+```bash
+twilio plugins:install @twilio-labs/plugin-serverless
+```
+
+## Installation
+
+First, clone the repository, change to its directory, and install:
+
+```bash
+git clone https://github.com/twilio-professional-services/queue-stats-and-metadata.git
+
+cd queue-stats-and-metadata
+npm install
+```
+
+Then, copy `.env.example` to `.env` and populate the following variables:
+
+- TWILIO_FLEX_WORKSPACE_SID    - assign the value of your Flex workspace
+- TWILIO_FLEX_SYNC_SID         - assign the value of the Sync service to map stats
+
+- TWILIO_SERVICE_RETRY_LIMIT   - max number of retry attempts, applicable to Sync and TaskRouter queries
+- TWILIO_SERVICE_MAX_BACKOFF   - max back of period the queries to TaskRouter will take when retrying, recommend 0 if Twilio hosted
+- TWILIO_SERVICE_MIN_BACKOFF   - min back of period the queries to TaskRouter will take when retrying, recommend 0 if Twilio hosted
+
+- TWILIO_SYNC_MAX_BACKOFF      - max back of period the queries to Sync will take when retrying, recommend 2000
+- TWILIO_SYNC_MIN_BACKOFF      - min back of period the queries to TaskRouter will take when retrying, recommend 1000
+
+- QUEUE_STATS_MAP_NAME         - name of Sync map to store stats
 - QUEUE_STATS_CUMULATIVE_PERIOD_MINUTES  - period in minutes from which to count stats backwards from now
 - QUEUE_STATS_SLA_SPLIT_PERIODS - split periods to cut cumulative stats by 30,60,120
-- QUEUE_STATS_TASKROUTER_STATS_BATCH_SIZE - throttle on max concurrent requests to task router
-- QUEUE_STATS_SYNC_MAP_UPDATE_BATCH_SIZE - throttle on max concurrent requests to sync
+- QUEUE_STATS_TASKROUTER_STATS_BATCH_SIZE - throttle on max concurrent requests to TaskRouter
+- QUEUE_STATS_SYNC_MAP_UPDATE_BATCH_SIZE - throttle on max concurrent requests to Sync
+
+Finally, deploy the serverless functions:
+
+```bash
+twilio serverless:deploy
+```
